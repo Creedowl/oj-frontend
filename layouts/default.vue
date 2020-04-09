@@ -1,8 +1,23 @@
 <template>
-  <div>
-    <nuxt />
-  </div>
+  <Layout id="layout">
+    <Header />
+    <main class="container">
+      <nuxt />
+    </main>
+    <Footer />
+  </Layout>
 </template>
+
+<script>
+import Header from '~/components/Header.vue'
+import Footer from '~/components/Footer.vue'
+export default {
+  components: {
+    Header,
+    Footer
+  }
+}
+</script>
 
 <style>
 html {
@@ -15,6 +30,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  background-color: #f5f7f9;
 }
 
 *,
@@ -51,5 +67,18 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+#layout {
+  min-width: 1024px;
+}
+
+.container {
+  margin: 20px auto;
+  min-height: 80vh;
+  min-width: 1024px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 </style>

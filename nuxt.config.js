@@ -1,5 +1,5 @@
 export default {
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Headers of the page
    */
@@ -27,7 +27,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/iview'],
+  plugins: [
+    '~/plugins/iview',
+    '~/plugins/axios',
+    '~/plugins/api',
+    { src: '~/plugins/localStorage', mode: 'client' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -41,6 +46,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv'
   ],
@@ -48,7 +54,15 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    proxy: true,
+    prefix: '/api'
+  },
+  proxy: {
+    '/api': {
+      target: 'http://localhost:8000'
+    }
+  },
   /*
    ** Build configuration
    */
