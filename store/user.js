@@ -8,7 +8,8 @@ const state = () => ({
 
 const getters = {
   user: (state, mutations) => state.userinfo,
-  isAuthenticated: (state, getters) => !!getters.user.token
+  isAuthenticated: (state, getters) => !!getters.user.token,
+  isAdmin: (state, getters) => !!getters.user.isAdmin
 }
 
 const mutations = {
@@ -28,7 +29,8 @@ const actions = {
       commit('setUser', {
         username: resp.student_id,
         realname: resp.name,
-        token: resp.access_token
+        token: resp.access_token,
+        isAdmin: resp.is_admin
       })
     } catch (error) {
       // console.log(error)

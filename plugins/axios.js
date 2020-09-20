@@ -15,7 +15,7 @@ export default ({ $axios, store, redirect }, inject) => {
       redirect('/400')
     } else if (code === 504) {
       Message.error('网络异常')
-      // redirect('/')
+      redirect('/')
     }
   })
 }

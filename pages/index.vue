@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>naive</p>
+    <p>lab</p>
   </div>
 </template>
 

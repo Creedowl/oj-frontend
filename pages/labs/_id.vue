@@ -62,10 +62,16 @@ export default {
         const lab = await this.$api.getLab(id)
         this.lab = lab
         this.loading = false
-      } catch (error) {}
+      } catch (error) {
+        // console.log(error.response)
+        if (error.response.status === 404) {
+          this.$Message.error('404 Not Found')
+          this.$router.push('/404')
+        }
+      }
     },
     onSuccess(res) {
-      console.log(res)
+      // console.log(res)
     }
   }
 }
