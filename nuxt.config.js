@@ -23,7 +23,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['view-design/dist/styles/iview.css'],
+  css: ['view-design/dist/styles/iview.css', 'highlight.js/styles/github.css'],
   /*
    ** Plugins to load before mounting the App
    */
@@ -31,6 +31,7 @@ export default {
     '~/plugins/iview',
     '~/plugins/axios',
     '~/plugins/api',
+    '~/plugins/highlight',
     { src: '~/plugins/localStorage', mode: 'client' }
   ],
   /*

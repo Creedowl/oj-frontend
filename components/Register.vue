@@ -25,12 +25,16 @@
       </Input>
     </FormItem>
     <FormItem>
-      <Button type="primary" long>注册</Button>
+      <Button type="primary" long :loading="loading" @click="register()">
+        注册
+      </Button>
     </FormItem>
   </Form>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     const checkPassword = (rule, value, callback) => {
@@ -43,6 +47,7 @@ export default {
       callback()
     }
     return {
+      loading: false,
       registerForm: {
         username: '',
         realname: '',
@@ -61,6 +66,31 @@ export default {
           { validator: checkPasswordAgain, trigger: 'blur' }
         ]
       }
+    }
+  },
+  methods: {
+    ...mapActions({
+      changeModal: 'changeModal'
+    }),
+    async register() {
+      this.loading = true
+      const validate = await this.$refs.registerForm.validate()
+      if (!validate) {
+        this.$Message.error('表单验证失败')
+      } else {
+        try {
+          await this.$api.register({
+            name: this.registerForm.realname,
+            student_id: this.registerForm.username,
+            password: this.registerForm.password
+          })
+          this.$Message.success('注册成功，请重新登录')
+          this.changeModal({ visible: true, component: 'Login' })
+        } catch (error) {
+          this.$Message.error(error.response.data.detail)
+        }
+      }
+      this.loading = false
     }
   }
 }

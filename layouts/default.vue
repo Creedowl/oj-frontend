@@ -70,15 +70,15 @@ html {
 }
 
 #layout {
-  min-width: 1024px;
+  min-width: 1440px;
 }
 
 .container {
   margin: 20px auto;
   min-height: 80vh;
-  min-width: 1024px;
+  min-width: 1440px;
   display: flex;
   justify-content: center;
-  text-align: center;
+  /* text-align: center; */
 }
 </style>

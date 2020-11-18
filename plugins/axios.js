@@ -11,11 +11,19 @@ export default ({ $axios, store, redirect }, inject) => {
 
   $axios.onError((error) => {
     const code = parseInt(error.response && error.response.status)
-    if (code === 400) {
-      redirect('/400')
-    } else if (code === 504) {
-      Message.error('网络异常')
-      redirect('/')
+    switch (code) {
+      case 504:
+        Message.error('网络异常')
+        redirect('/')
+        break
+      case 403:
+        if (error.response.data.detail === 'Could not validate credentials') {
+          Message.error('登录过期，请重新登录')
+          store.commit('user/logout')
+        }
+        break
+      default:
+        break
     }
   })
 }
