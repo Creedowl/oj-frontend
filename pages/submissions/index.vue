@@ -1,40 +1,47 @@
 <template>
   <div class="submissions">
-    <Table
-      :columns="columns"
-      :data="submissions"
-      :loading="loading"
-      class="submissions-list"
-    >
-      <template slot="id" slot-scope="{ row }">
-        <nuxt-link
-          v-if="
-            isAuthenticated &&
-              (user.username === row.student_id || user.isAdmin)
-          "
-          :to="'/submissions/' + row.id"
-        >
-          {{ row.id }}
-        </nuxt-link>
-        <span v-else>{{ row.id }}</span>
-      </template>
-      <template slot="status" slot-scope="{ row }">
-        <Tag :color="getTagColor(row.status)">{{ row.status }}</Tag>
-      </template>
-      <template slot="lab" slot-scope="{ row }">
-        <nuxt-link :to="'labs/' + row.lab_id">{{ row.lab_name }}</nuxt-link>
-      </template>
-      <template slot="author" slot-scope="{ row }">
-        <span>{{ row.student_id }}</span>
-      </template>
-    </Table>
-    <Page
-      :total="total"
-      :page-size="50"
-      show-elevator
-      class="page"
-      @on-change="pageHandler"
-    />
+    <Card>
+      <div class="hd">
+        <p class="title">提交列表</p>
+      </div>
+      <Table
+        :columns="columns"
+        :data="submissions"
+        :loading="loading"
+        class="submissions-list"
+      >
+        <template slot="id" slot-scope="{ row }">
+          <nuxt-link
+            v-if="
+              isAuthenticated &&
+                (user.username === row.student_id || user.isAdmin)
+            "
+            :to="'/submissions/' + row.id"
+          >
+            {{ row.id }}
+          </nuxt-link>
+          <span v-else>{{ row.id }}</span>
+        </template>
+        <template slot="status" slot-scope="{ row }">
+          <Tag :color="getTagColor(row.status)" class="tag">{{
+            row.status
+          }}</Tag>
+        </template>
+        <template slot="lab" slot-scope="{ row }">
+          <nuxt-link :to="'labs/' + row.lab_id">{{ row.lab_name }}</nuxt-link>
+        </template>
+        <template slot="author" slot-scope="{ row }">
+          <span>{{ row.student_id }}</span>
+        </template>
+      </Table>
+      <Page
+        :total="total"
+        :page-size="50"
+        show-elevator
+        class="page"
+        @on-change="pageHandler"
+      />
+    </Card>
   </div>
 </template>
 
@@ -67,9 +74,19 @@ export default {
     this.getSubmissions()
   },
   methods: {
-    async getSubmissions(offset = 0, limit = 50) {
+    async getSubmissions(
+      offset = 0,
+      limit = 50,
+      lab_id = null,
+      user_id = null
+    ) {
       try {
-        const list = await this.$api.getSubmissions(offset, limit)
+        const list = await this.$api.getSubmissions(
+          offset,
+          limit,
+          lab_id,
+          user_id
+        )
         this.total = list.total
         this.submissions = list.submissions
         this.loading = false
@@ -96,17 +113,26 @@ export default {
 </script>
 
 <style scoped>
-.submissions {
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+.hd {
+  text-align: left;
+  margin-bottom: 1rem;
 }
 
 .submissions-list {
   width: 80vw;
+  min-width: 1024px;
 }
 
 .page {
   margin: 20px auto;
+}
+
+.tag {
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 2rem;
 }
 </style>

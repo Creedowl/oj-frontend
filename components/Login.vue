@@ -20,6 +20,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -48,12 +49,12 @@ export default {
       if (!valid) {
         this.$Message.error('表单校验失败')
       } else {
-        await this.loginAction(this.loginForm)
-        if (this.isAuthenticated) {
+        try {
+          await this.loginAction(this.loginForm)
           this.$Message.success('登录成功')
           this.changeModal({ visible: false })
-        } else {
-          this.$Message.error('登录失败')
+        } catch (error) {
+          this.$Message.error(`登录失败：${error.response.data.detail}`)
         }
       }
       this.loading = false

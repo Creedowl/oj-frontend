@@ -1,5 +1,5 @@
 <template>
-  <Header>
+  <Header class="header">
     <Menu mode="horizontal" theme="dark" class="header_menu">
       <div class="logo">
         <span>计组实验在线评测系统</span>
@@ -16,6 +16,10 @@
         <MenuItem name="submissions" to="/submissions">
           <Icon type="ios-albums-outline" size="20" custom="icon" />
           <span class="nav_text">提交列表</span>
+        </MenuItem>
+        <MenuItem name="classes" to="/classes">
+          <Icon type="ios-people-outline" size="20" custom="icon" />
+          <span class="nav_text">班级列表</span>
         </MenuItem>
         <template v-if="!isAuthenticated">
           <Button shape="circle" icon="ios-contact" @click="showModal('Login')">
@@ -36,6 +40,9 @@
               <span class="nav_text">{{ user.realname }}</span>
             </template>
             <MenuGroup title="用户">
+              <MenuItem name="userinfo" :to="`/users/${user.id}`">
+                个人信息
+              </MenuItem>
               <MenuItem name="logout" @click.native="logout()">退出</MenuItem>
             </MenuGroup>
           </Submenu>
@@ -55,6 +62,7 @@
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import Login from '~/components/Login'
 import Register from '~/components/Register'
+
 export default {
   components: {
     Login,
@@ -94,6 +102,10 @@ export default {
 </script>
 
 <style scoped>
+.header {
+  min-width: 1312px;
+}
+
 .icon {
   font-weight: bold;
 }
